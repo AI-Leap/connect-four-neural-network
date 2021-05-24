@@ -29,7 +29,8 @@ def gamesToWinLossData(games):
     return (X[:trainNum], X[trainNum:], y[:trainNum], y[trainNum:])
 
 
-games = generate_data.getTrainingGames(3)
+games = generate_data.getTrainingGames(1000)
+print('total games: ', len(games))
 # for (history, game) in games:
 #   game.displayBoard()
 #   print(generate_data.generateTrainingBoard(history))
@@ -38,5 +39,6 @@ X_train, X_test, y_train, y_test = gamesToWinLossData(games)
 
 model = model.getModel()
 nEpochs = 100
-batchSize = 100
+batchSize = 10
 history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=nEpochs, batch_size=batchSize)
+model.save('./models2')
