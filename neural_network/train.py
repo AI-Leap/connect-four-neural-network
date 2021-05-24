@@ -17,9 +17,11 @@ def gamesToWinLossData(games):
         if winner == 'O':
           r = 2
 
-        for move in range(len(history)):
-            X.append(generate_data.generateTrainingBoard(history[:(move + 1)]))
-            y.append(r)
+        # for move in range(len(history)):
+        #     X.append(generate_data.generateTrainingBoard(history[:(move + 1)]))
+        #     y.append(r)
+        X.append(generate_data.generateTrainingBoard(history))
+        y.append(r)
 
     X = np.array(X).reshape((-1, 48))
     y = to_categorical(y)
@@ -29,16 +31,24 @@ def gamesToWinLossData(games):
     return (X[:trainNum], X[trainNum:], y[:trainNum], y[trainNum:])
 
 
-games = generate_data.getTrainingGames(1000)
+games = generate_data.getTrainingGames(100)
 print('total games: ', len(games))
 # for (history, game) in games:
 #   game.displayBoard()
 #   print(generate_data.generateTrainingBoard(history))
 
 X_train, X_test, y_train, y_test = gamesToWinLossData(games)
+print('xtrain', len(X_train))
+print('xtest', len(X_test))
+print('ytrain', len(y_train))
+print('ytest', len(y_test))
+
+for i in y_test:
+  print(i)
+# print(X_train[1234], y_train[1234])
 
 model = model.getModel()
-nEpochs = 100
-batchSize = 10
+nEpochs = 1000
+batchSize = 50
 history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=nEpochs, batch_size=batchSize)
 model.save('./models2')

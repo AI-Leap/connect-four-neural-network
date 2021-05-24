@@ -3,7 +3,7 @@ import copy
 import random
 from tensorflow import keras
 from tensorflow.python.framework.tensor_util import GetNumpyAppendFn
-model = keras.models.load_model('./models')
+model = keras.models.load_model('./models2')
 from connect4 import Connect4
 
 def generateTrainingBoard(playboard):
@@ -24,23 +24,26 @@ def bestMove(game, model, player, rnd=0):
     for i in range(len(moves)):
         gameCopy = copy.deepcopy(game)
         gameCopy.play(i, player)
-        board = np.array(generateTrainingBoard(game.board)).reshape(-1, 48)
+        board = np.array(generateTrainingBoard(gameCopy.board)).reshape(-1, 48)
         prediction = model.predict(board)[0]
+        # gameCopy.displayBoard()
         print('prediction', prediction)
         if player == ' O':
             winPrediction = prediction[1]
             lossPrediction = prediction[2]
+            scores.append(winPrediction)
         else:
             winPrediction = prediction[2]
             lossPrediction = prediction[1]
         drawPrediction = prediction[0]
-        if winPrediction - lossPrediction > 0:
-            scores.append(winPrediction - lossPrediction)
-        else:
-            scores.append(drawPrediction - lossPrediction)
+        # if winPrediction - lossPrediction > 0:
+        #     scores.append(winPrediction - lossPrediction)
+        # else:
+        #     scores.append(drawPrediction - lossPrediction)
 
     # Choose the best move with a random factor
     bestMoves = np.flip(np.argsort(scores))
+    print(bestMoves)
     for i in range(len(bestMoves)):
         if random.random() * rnd < 0.5:
             return moves[bestMoves[i]]
@@ -70,11 +73,17 @@ def manualPlay():
               currentPlayer = "Player2"
               marker = 'O'
           # Player to choose where to put the mark
-          if currentPlayer == 'Player2':
-              position = bestMove(c, model, 'O', 0)
-              print('best move', position)
-          else:
-              position = c.player_choice()
+          # if currentPlayer == 'Player2':
+          #     position = bestMove(c, model, 'O', 0)
+          #     print('best move', position)
+          # else:
+          position = c.player_choice()
+
+          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 48)
+          prediction = model.predict(board)[0]
+          # gameCopy.displayBoard()
+          print('prediction', prediction)
+
           if not c.play(position, marker):
               print(f"Column {position} full")
 
