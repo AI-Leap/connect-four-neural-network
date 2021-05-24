@@ -1,4 +1,5 @@
 import numpy as np
+np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 import copy
 import random
 from tensorflow import keras
@@ -7,13 +8,13 @@ model = keras.models.load_model('./checkpoints')
 from connect4 import Connect4
 
 def generateTrainingBoard(playboard):
-    board = [ [0]* 7 for i in range(6)]
+    board = [ [0.0]* 7 for i in range(6)]
     for i in range(6):
         for j in range(7):
             if playboard[i][j] == ' X':
-                board[i][j] = 1
+                board[i][j] = 1.0
             if playboard[i][j] == ' O':
-                board[i][j] = 2
+                board[i][j] = -1.0 
     return board
 
 def bestMove(game, model, player, rnd=0):
@@ -79,13 +80,18 @@ def manualPlay():
           # else:
           position = c.player_choice()
 
-          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
-          prediction = model.predict(board)[0]
+          # board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
+          # print(board)
+          # prediction = model.predict(board)[0]
+          # print('prediction', prediction)
           # gameCopy.displayBoard()
-          print('prediction', prediction)
 
           if not c.play(position, marker):
               print(f"Column {position} full")
+          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
+          print(board)
+          prediction = model.predict(board)[0]
+          print('prediction', prediction)
 
           # Generate the reversed board
           reversedBoard = c.generateReversedBoard()
