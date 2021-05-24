@@ -93,6 +93,8 @@ class Connect4:
         
         if xWin: return 'X'
         if oWin: return 'O'
+
+        if len(self.getMoves()) == 0: return 'D'
         return False
 
     def play(self, playercolumn, marker):
@@ -102,48 +104,52 @@ class Connect4:
                 return True
         return False
 
-# c = Connect4()
+def manualPlay():
+  c = Connect4()
 
-# # First while lopp init
-# game = True
-# while game:
-#     # Choose your marker
-#     players = c.player_input()
-#     # Display the board
-#     c.displayBoard()
-#     # Second while loop init
-#     win = False
-#     i = 1
-#     while not win:
-#         # Start Playing
-#         if i % 2 == 0:
-#             currentPlayer = "Player1"
-#             marker = players[1]
-#         else:
-#             currentPlayer = "Player2"
-#             marker = players[0]
-#         # Player to choose where to put the mark
-#         position = c.player_choice()
-#         if not c.play(position, marker):
-#             print(f"Column {position} full")
+  # First while lopp init
+  game = True
+  while game:
+      # Choose your marker
+      players = c.player_input()
+      # Display the board
+      c.displayBoard()
+      # Second while loop init
+      win = False
+      i = 1
+      while not win:
+          # Start Playing
+          if i % 2 == 0:
+              currentPlayer = "Player1"
+              marker = players[1]
+          else:
+              currentPlayer = "Player2"
+              marker = players[0]
+          # Player to choose where to put the mark
+          position = c.player_choice()
+          if not c.play(position, marker):
+              print(f"Column {position} full")
 
-#         # Generate the reversed board
-#         reversedBoard = c.generateReversedBoard()
-#         # Check if won
-#         if c.checkLines(marker) or c.checkLines(marker, reversedBoard) or c.checkDiags(marker):
-#             # update the win to exit the second while loop
-#             win = True
-#             c.displayBoard()
-#             print(f"Game won by {currentPlayer}")
-#             # Ask for replay.
-#             # If no, change the first loop game = True to False
-#             # If yes, reset our class with fresh new datas
-#             replay = input("Do you want to play again (Y/N) ? ")
-#             if replay.lower() == 'n':
-#                 game = False
-#                 print("Game ended !")
-#             else:
-#                 c = Connect4()
-#             break
-#         c.displayBoard()
-#         i += 1
+          # Generate the reversed board
+          reversedBoard = c.generateReversedBoard()
+          # Check if won
+          # if c.checkLines(marker) or c.checkLines(marker, reversedBoard) or c.checkDiags(marker):
+          if c.getWinner():
+              # update the win to exit the second while loop
+              win = True
+              c.displayBoard()
+              print(f"Game won by {currentPlayer}", c.getWinner())
+              # Ask for replay.
+              # If no, change the first loop game = True to False
+              # If yes, reset our class with fresh new datas
+              replay = input("Do you want to play again (Y/N) ? ")
+              if replay.lower() == 'n':
+                  game = False
+                  print("Game ended !")
+              else:
+                  c = Connect4()
+              break
+          c.displayBoard()
+          i += 1
+
+# manualPlay()
