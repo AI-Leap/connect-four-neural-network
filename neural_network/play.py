@@ -3,13 +3,13 @@ import copy
 import random
 from tensorflow import keras
 from tensorflow.python.framework.tensor_util import GetNumpyAppendFn
-model = keras.models.load_model('./models2')
+model = keras.models.load_model('./checkpoints')
 from connect4 import Connect4
 
 def generateTrainingBoard(playboard):
-    board = [ [0]* 8 for i in range(6)]
+    board = [ [0]* 7 for i in range(6)]
     for i in range(6):
-        for j in range(8):
+        for j in range(7):
             if playboard[i][j] == ' X':
                 board[i][j] = 1
             if playboard[i][j] == ' O':
@@ -24,7 +24,7 @@ def bestMove(game, model, player, rnd=0):
     for i in range(len(moves)):
         gameCopy = copy.deepcopy(game)
         gameCopy.play(i, player)
-        board = np.array(generateTrainingBoard(gameCopy.board)).reshape(-1, 48)
+        board = np.array(generateTrainingBoard(gameCopy.board)).reshape(-1, 42)
         prediction = model.predict(board)[0]
         # gameCopy.displayBoard()
         print('prediction', prediction)
@@ -79,7 +79,7 @@ def manualPlay():
           # else:
           position = c.player_choice()
 
-          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 48)
+          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
           prediction = model.predict(board)[0]
           # gameCopy.displayBoard()
           print('prediction', prediction)

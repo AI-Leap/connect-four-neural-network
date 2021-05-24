@@ -8,10 +8,9 @@ from tensorflow.python.keras.layers.pooling import MaxPool2D
 optimizer = keras.optimizers.Adam(lr=0.001)
 
 def getModel():
-    numCells = 48
     outcomes = 3
     model = Sequential()
-    model.add(Dense(512, activation='relu', input_shape=(48, )))
+    model.add(Dense(512, activation='relu', input_shape=(42, )))
     # model.add(MaxPool2D(pool_size=(2, 2)))
     # model.add(Dense(500, activation='relu'))
     # model.add(Dropout(0.3))

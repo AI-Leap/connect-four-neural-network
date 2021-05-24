@@ -1,7 +1,7 @@
 class Connect4:
 
     def __init__(self):
-        self.numberOfColumns = 8
+        self.numberOfColumns = 7
         self.numberOfLines = 6
         self.board = [['  ' for _ in range(
             self.numberOfColumns)] for _ in range(self.numberOfLines)]
