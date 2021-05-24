@@ -29,18 +29,17 @@ def bestMove(game, model, player, rnd=0):
         prediction = model.predict(board)[0]
         # gameCopy.displayBoard()
         print('prediction', prediction)
-        if player == ' O':
-            winPrediction = prediction[1]
-            lossPrediction = prediction[2]
-            scores.append(winPrediction)
-        else:
+        if player == 'O':
             winPrediction = prediction[2]
             lossPrediction = prediction[1]
+        else:
+            winPrediction = prediction[1]
+            lossPrediction = prediction[2]
         drawPrediction = prediction[0]
-        # if winPrediction - lossPrediction > 0:
-        #     scores.append(winPrediction - lossPrediction)
-        # else:
-        #     scores.append(drawPrediction - lossPrediction)
+        if winPrediction - lossPrediction > 0:
+            scores.append(winPrediction - lossPrediction)
+        else:
+            scores.append(drawPrediction - lossPrediction)
 
     # Choose the best move with a random factor
     bestMoves = np.flip(np.argsort(scores))
@@ -74,11 +73,11 @@ def manualPlay():
               currentPlayer = "Player2"
               marker = 'O'
           # Player to choose where to put the mark
-          # if currentPlayer == 'Player2':
-          #     position = bestMove(c, model, 'O', 0)
-          #     print('best move', position)
-          # else:
-          position = c.player_choice()
+          if currentPlayer == 'Player2':
+              position = bestMove(c, model, 'O', 0)
+              print('best move', position)
+          else:
+            position = c.player_choice()
 
           # board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
           # print(board)
@@ -88,10 +87,10 @@ def manualPlay():
 
           if not c.play(position, marker):
               print(f"Column {position} full")
-          board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
-          print(board)
-          prediction = model.predict(board)[0]
-          print('prediction', prediction)
+          # board = np.array(generateTrainingBoard(c.board)).reshape(-1, 42)
+          # print(board)
+          # prediction = model.predict(board)[0]
+          # print('prediction', prediction)
 
           # Generate the reversed board
           reversedBoard = c.generateReversedBoard()
