@@ -1,11 +1,11 @@
-import keras
+from tensorflow import keras
 import numpy as np
 import copy
 import operator
 from collections import Counter
 np.set_printoptions(formatter={'float': lambda x: "{0:0.4f}".format(x)})
 
-from keras import models
+from tensorflow.keras import models
 
 model = keras.models.load_model('./ai-model')
 
