@@ -85,7 +85,7 @@ button {
 
 #button-board {
   display: none;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 1.998vmin;
   padding: 3vmin 3vmin 0;
 }
@@ -168,7 +168,7 @@ button {
   margin: auto;
   display: grid;
   grid-gap: 3vmin;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   justify-content: center;
   overflow: hidden;
   border-radius: 0.25rem;
