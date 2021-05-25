@@ -15,6 +15,7 @@
 	<div class="flex">
 		<p v-html="message" role="status"></p>
 		<button :disabled="!areThereMoves" @click="startNewGame">New game</button>
+		<button :disabled="!areThereMoves" @click="startNewGame(true)">New AI game</button>
 	</div>
 
 	<div id="button-board">
@@ -44,6 +45,7 @@
 </div>
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script><script  src="./script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </body>
 </html>

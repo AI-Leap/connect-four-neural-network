@@ -16,7 +16,9 @@ const game = new Vue({
   data: () => ({
     grid: emptyGrid,
     redTurn: true, //if false, it's yellow's turn. Better to use a boolean than strings.
-    gameOver: false }),
+    gameOver: false,
+    isAI: false,
+  }),
 
 
   //Prevent users from navigating away from a game accidentally
@@ -28,9 +30,14 @@ const game = new Vue({
   },
 
   methods: {
-    dropPiece(e) {
+    dropPiece(e, aiMove) {
+      let column;
+      if (aiMove != null) {
+        column = aiMove;
+      } else {
+        column = e.target.dataset.column;
+      }
       if (this.gameOver) return; //No more plays once the game is done
-      const column = e.target.dataset.column;
 
       for (let i = this.grid.length - 1; i >= 0; i--) {
         if (!this.grid[i][column].color) {
@@ -90,6 +97,30 @@ const game = new Vue({
 
     switchTurn() {
       this.redTurn = !this.redTurn;
+      if (this.isAI && !this.redTurn) {
+        this.aiTurn();
+      }
+    },
+
+    async aiTurn() {
+      console.log('waiting for AI overlord...');
+      const board = [];
+      this.grid.forEach(row => {
+        row.forEach(column => {
+          if (column.color === 'red') {
+            board.push(1);
+          }
+          else if (column.color === 'yellow') {
+            board.push(-1);
+          } else {
+            board.push(0)
+          }
+        });
+      });
+      // console.log(board);
+      const ret = await axios.post('http://localhost:5000/calculate', { board });
+
+      this.dropPiece(null, parseInt(ret.data))
     },
 
     //Necessary to get Vue to recognize changes, because changes to an object in an array of objects won't trigger a re-render
@@ -135,7 +166,7 @@ const game = new Vue({
       return isGameOver;
     },
 
-    startNewGame() {
+    startNewGame(withAI = false) {
       if (this.areThereMoves) {
         const areYouSure = confirm(
         "Start a new game? This one will be lost four-ever :)");
@@ -150,6 +181,7 @@ const game = new Vue({
       this.refreshGrid();
       this.gameOver = false;
       this.redTurn = true;
+      this.isAI = withAI;
     } },
 
 
