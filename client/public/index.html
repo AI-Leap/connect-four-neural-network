@@ -2,19 +2,19 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Connect Four in Vue and CSS</title>
+  <title>AI Leap Connect 4</title>
   <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2:400,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
+<div>UI Credit goes to <a target="_blank" href="https://codepen.io/collinsworth/pen/MWwXpLd">Collinsworth</a></div>
 <div id="game">
 
 	<div id="winner-burst" :class="[currentTurnColor, gameOver && 'burst']"></div>
 
 	<div class="flex">
 		<p v-html="message" role="status"></p>
-    <div v-if="isAIthinking">Please wait! AI is thinking...</div>
 		<button :disabled="!areThereMoves" @click="startNewGame(false)">New game</button>
 		<button :disabled="!areThereMoves" @click="startNewGame(true)">New AI game</button>
 	</div>
@@ -43,6 +43,7 @@
 			</template>
 		</template>
 	</div>
+  <div v-if="isAIthinking">Please wait! AI is thinking...</div>
 </div>
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script><script  src="./script.js"></script>
