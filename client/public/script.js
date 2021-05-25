@@ -18,6 +18,7 @@ const game = new Vue({
     redTurn: true, //if false, it's yellow's turn. Better to use a boolean than strings.
     gameOver: false,
     isAI: false,
+    isAIthinking: false,
   }),
 
 
@@ -97,12 +98,13 @@ const game = new Vue({
 
     switchTurn() {
       this.redTurn = !this.redTurn;
-      if (this.isAI && !this.redTurn) {
+      if (this.isAI && this.redTurn) {
         this.aiTurn();
       }
     },
 
     async aiTurn() {
+      this.isAIthinking = true;
       console.log('waiting for AI overlord...');
       const board = [];
       this.grid.forEach(row => {
@@ -125,6 +127,7 @@ const game = new Vue({
         });
 
       this.dropPiece(null, parseInt(ret.data))
+      this.isAIthinking = false;
     },
 
     //Necessary to get Vue to recognize changes, because changes to an object in an array of objects won't trigger a re-render
@@ -186,6 +189,13 @@ const game = new Vue({
       this.gameOver = false;
       this.redTurn = true;
       this.isAI = withAI;
+      if (this.isAI) {
+        // this.aiTurn()
+        this.isAIthinking = true;
+        const randomMove = Math.floor(Math.random() * 6)
+        this.dropPiece(null, randomMove)
+        this.isAIthinking = false;
+      }
     } },
 
 

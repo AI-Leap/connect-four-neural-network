@@ -14,13 +14,14 @@
 
 	<div class="flex">
 		<p v-html="message" role="status"></p>
-		<button :disabled="!areThereMoves" @click="startNewGame">New game</button>
+    <div v-if="isAIthinking">Please wait! AI is thinking...</div>
+		<button :disabled="!areThereMoves" @click="startNewGame(false)">New game</button>
 		<button :disabled="!areThereMoves" @click="startNewGame(true)">New AI game</button>
 	</div>
 
 	<div id="button-board">
 		<div v-for="i in 7" :data-column="i - 1" @click.stop="dropPiece">
-			<button :data-column="i - 1" @click.stop="dropPiece" @keydown="handleMoveCursor" @mouseover="handleHover" :aria-label="`Drop ${currentTurnColor} piece in column ${i}`" :tabindex="gameOver || isADraw ? '-1' : '0'">
+			<button :disabled="isAIthinking" :data-column="i - 1" @click.stop="dropPiece" @keydown="handleMoveCursor" @mouseover="handleHover" :aria-label="`Drop ${currentTurnColor} piece in column ${i}`" :tabindex="gameOver || isADraw ? '-1' : '0'">
 				<span></span>
 			</button>
 			<div class="slot" :hidden="gameOver || isADraw" aria-hidden="true">

@@ -26,8 +26,12 @@ def playMove(board, move, player):
     return -1
 
 def getPrediction(board):
-    prediction = model.predict(np.array(board).reshape(-1, 42))[0]
-    return prediction
+    try:
+        prediction = model.predict(np.array(board).reshape(-1, 42))[0]
+        return prediction
+    except ValueError:
+        print('getPrediction Error', board)
+
 
 def getOpponentNextMove(board, player):
     moves = getMoves(board)
@@ -103,14 +107,17 @@ def getMove(board, player):
             scores.append(drawPrediction - lossPrediction)
 
     bestMoves = np.flip(np.argsort(scores))
-    print(bestMoves)
+    print('bestMoves', bestMoves)
 
     opponentBestMove, opponentBestConfidence = calculateFrequencyConfidence(opponentNextMoves)
+    print('opponentBestMove', opponentBestMove)
+
     if opponentBestConfidence > scores[bestMoves[0]] or opponentBestConfidence > 0.95:
         return opponentBestMove
 
-    return bestMoves[0]
- 
+    for move in bestMoves:
+        if move in moves:
+            return move
 
 def getBestMove(board, player):
     move = getMove(board, int(player))
