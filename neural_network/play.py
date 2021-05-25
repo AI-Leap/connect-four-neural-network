@@ -128,7 +128,7 @@ def manualPlay():
       c.displayBoard()
       # Second while loop init
       win = False
-      i = 0
+      i = 1
       while not win:
           # Start Playing
           print('move...')
