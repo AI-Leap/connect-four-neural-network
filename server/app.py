@@ -12,5 +12,5 @@ def hello():
 
 @app.route("/calculate", methods=['POST'])
 def calculate():
-  move = move_service.getPrediction(request.json['board'])
+  move = move_service.getBestMove(request.json['board'], request.json['player'])
   return str(move)

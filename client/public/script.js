@@ -118,7 +118,11 @@ const game = new Vue({
         });
       });
       // console.log(board);
-      const ret = await axios.post('http://localhost:5000/calculate', { board });
+      const ret = await axios.post('http://localhost:5000/calculate',
+        {
+          board,
+          player: this.redTurn ? 1 : -1
+        });
 
       this.dropPiece(null, parseInt(ret.data))
     },
