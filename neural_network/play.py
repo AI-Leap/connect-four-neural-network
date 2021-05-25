@@ -41,6 +41,7 @@ def calculateFrequencyConfidence(nextMoves):
     if bool(confidenceDict):
         mostF = max(confidenceDict, key=confidenceDict.get)
         print('mostF', mostF, confidenceDict[mostF])
+        if mostF == 0: return -1, -1 # dirty but works
         return mostF, confidenceDict[mostF]
     return -1, -1
  
