@@ -1,8 +1,8 @@
 import random
 import math
-from evaluation import Evaluation
+from neural_evaluation import Evaluation
 
-class MiniMaxBot(Evaluation):
+class NeuralBot(Evaluation):
 	def __init__(self, piece, depth=3):
 		super().__init__(piece)
 		self.depth = depth

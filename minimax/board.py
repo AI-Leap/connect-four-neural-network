@@ -54,7 +54,18 @@ class Board:
                 return r
 
     def print_board(self):
-        print(np.flip(self.board, 0))
+        # print(np.flip(self.board, 0))
+        for i in reversed(range(self.ROW_COUNT)):
+            row = ''
+            for j in reversed(range(self.COLUMN_COUNT)):
+                if self.board[i][j] == 0:
+                    row += '| _ '
+                if self.board[i][j] == 1:
+                    row += '| X '
+                if self.board[i][j] == 2:
+                    row += '| O '
+            print(row + '|')
+            print('\n')
 
     def winning_move(self, piece):
         # Check horizontal locations for win
