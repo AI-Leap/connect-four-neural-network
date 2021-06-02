@@ -3,7 +3,7 @@ import math
 from neural_evaluation import Evaluation
 
 class NeuralBot(Evaluation):
-	def __init__(self, piece, depth=3):
+	def __init__(self, piece, depth=5):
 		super().__init__(piece)
 		self.depth = depth
 

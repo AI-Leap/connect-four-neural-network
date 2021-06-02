@@ -24,38 +24,7 @@ class Evaluation:
 
 	def score_position(self, board):
 		score = 0
-
-		## Score center column
-		center_array = [int(i) for i in list(board.get_board()[:, board.COLUMN_COUNT//2])]
-		center_count = center_array.count(self.bot_piece)
-		score += center_count * 3
-
-		## Score Horizontal
-		for r in range(board.ROW_COUNT):
-			row_array = [int(i) for i in list(board.get_board()[r,:])]
-			for c in range(board.COLUMN_COUNT-3):
-				window = row_array[c:c+board.WINDOW_LENGTH]
-				score += self.evaluate_window(board.get_board())
-
-		## Score Vertical
-		for c in range(board.COLUMN_COUNT):
-			col_array = [int(i) for i in list(board.get_board()[:,c])]
-			for r in range(board.ROW_COUNT-3):
-				window = col_array[r:r+board.WINDOW_LENGTH]
-				score += self.evaluate_window(board.get_board())
-
-		## Score positive sloped diagonal
-		for r in range(board.ROW_COUNT-3):
-			for c in range(board.COLUMN_COUNT-3):
-				window = [board.get_board()[r+i][c+i] for i in range(board.WINDOW_LENGTH)]
-				score += self.evaluate_window(board.get_board())
-
-		## Score negative sloped diagonal
-		for r in range(board.ROW_COUNT-3):
-			for c in range(board.COLUMN_COUNT-3):
-				window = [board.get_board()[r+3-i][c+i] for i in range(board.WINDOW_LENGTH)]
-				score += self.evaluate_window(board.get_board())
-
+		score += self.evaluate_window(board.get_board())
 		return score
 
 	def is_terminal_node(self, board):
